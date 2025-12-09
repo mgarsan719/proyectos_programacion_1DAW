@@ -4,6 +4,6 @@ public class MainRepaso
 {
 	public static void main(String[] args)
 	{		
-		System.out.println(Repaso.fibonacci(40));
+		System.out.println(Repaso.posicionDeDigito(1233,3));
 	}
 }
