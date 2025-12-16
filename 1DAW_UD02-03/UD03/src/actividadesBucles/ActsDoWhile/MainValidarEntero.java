@@ -29,6 +29,8 @@ public class MainValidarEntero
 			}
 
 		} while (num < 1 || num > 10);
+		
+		sc.close();
 	}
 
 }

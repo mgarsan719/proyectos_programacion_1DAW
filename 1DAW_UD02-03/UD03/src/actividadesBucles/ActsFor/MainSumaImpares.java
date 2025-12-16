@@ -1,6 +1,5 @@
 package actividadesBucles.ActsFor;
 
-import java.util.Scanner;
 
 public class MainSumaImpares
 {

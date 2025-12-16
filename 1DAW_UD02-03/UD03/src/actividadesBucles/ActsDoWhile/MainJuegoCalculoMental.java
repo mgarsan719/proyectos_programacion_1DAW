@@ -2,7 +2,6 @@ package actividadesBucles.ActsDoWhile;
 
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class MainJuegoCalculoMental
 {
@@ -45,6 +44,7 @@ public class MainJuegoCalculoMental
 
 		System.out.println("Has fallado");
 		System.out.printf("Numero de aciertos: %d \n", contadorAcierto);
+		
+		sc.close();
 	}
-
 }

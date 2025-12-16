@@ -40,6 +40,7 @@ public class mainContadorCifras
 			System.out.println("Error");
 		}
 
+		sc.close();
 	}
 
 }

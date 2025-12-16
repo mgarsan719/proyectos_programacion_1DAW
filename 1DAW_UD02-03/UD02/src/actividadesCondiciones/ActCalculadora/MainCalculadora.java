@@ -23,7 +23,8 @@ public class MainCalculadora
 		calc.setNum2(sc.nextDouble());
 
 		calc.calcular();
-
+		
+		sc.close();
 	}
 
 }

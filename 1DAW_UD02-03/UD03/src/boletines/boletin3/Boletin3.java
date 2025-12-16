@@ -29,6 +29,8 @@ public class Boletin3
 				System.out.print("-");
 			}
 		}
+		
+		sc.close();
 	}
 
 	public static void pintar_U()
@@ -66,6 +68,8 @@ public class Boletin3
 		}
 
 		System.out.println("\n");
+		
+		sc.close();
 	}
 
 	public static void insertar_Digito()

@@ -168,5 +168,7 @@ public class Complejidad
 			}
 			
 		} while (!(minus >= 2 && mayus >= 2 && nums >= 2 && esp >= 2));
+		
+		sc.close();
 	}
 }
