@@ -2,8 +2,6 @@ package actividades.poo.ActividadesTema1.Act01;
 
 import java.util.Scanner;
 
-import actividades.poo.CuentaCorriente.CuentaCorriente;
-
 public class MainRectangulo
 {
 
@@ -34,7 +32,14 @@ public class MainRectangulo
 			{
 			case 1:
 				System.out.println("Ha seleccionado Crear Rectangulo \n");
-				r1.CrearRectangulo();
+				
+				System.out.println("Dime la base:");
+				double base= sc.nextDouble();
+				
+				System.out.println("Dime la altura:");
+				double altura=sc.nextDouble();
+				
+				r1.CrearRectangulo(base, altura);
 				System.out.printf("Rectángulo creado con %.2f cm de base y %.2f cm de altura \n",r1.getBase(),r1.getAltura());
 				break;
 
@@ -56,6 +61,7 @@ public class MainRectangulo
 			}
 		}
 		
+		sc.close();
 	}
 
 }

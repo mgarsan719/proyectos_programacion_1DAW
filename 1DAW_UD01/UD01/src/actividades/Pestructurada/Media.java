@@ -40,6 +40,7 @@ public class Media
 
 		System.out.printf("Tu nota media es un %.3f", media);
 
+		sc.close();
 	}
 
 }

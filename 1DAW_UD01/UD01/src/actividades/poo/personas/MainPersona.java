@@ -1,4 +1,4 @@
-package poo.personas;
+package actividades.poo.personas;
 
 public class MainPersona
 {

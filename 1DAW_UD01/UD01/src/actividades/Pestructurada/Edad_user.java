@@ -17,6 +17,7 @@ public class Edad_user
 		
 		System.out.printf("Su edad es %d, por lo que el año que viene usted tendra %d años", edad, edad+1);
 
+		sc.close();
 	}
 
 }

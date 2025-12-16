@@ -1,17 +1,11 @@
-package prueba;
+package pruebas;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import java.awt.GridLayout;
 import java.awt.Image;
 
-import javax.swing.JTextField;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
 import javax.swing.SwingConstants;
-import javax.swing.JPanel;
-import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.ImageIcon;

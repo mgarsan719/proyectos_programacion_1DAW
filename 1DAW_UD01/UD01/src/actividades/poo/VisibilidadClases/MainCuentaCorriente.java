@@ -58,6 +58,8 @@ public class MainCuentaCorriente
 				break;
 			}
 		}
+		
+		sc.close();
 	}
 
 }

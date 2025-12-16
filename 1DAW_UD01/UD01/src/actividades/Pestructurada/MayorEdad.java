@@ -18,6 +18,7 @@ public class MayorEdad
 		
 		System.out.printf("¿Eres mayor de edad? \n%b",esMayor);
 		
+		sc.close();
 	}
 
 }

@@ -30,7 +30,8 @@ public class frutero
 		double totalPeras=(kgPeras1+kgPeras2)*precioPeras;
 		
 		System.out.printf("El beneficio total de este año es de %.2f euros", totalManzanas+totalPeras);
-		
+	
+		sc.close();
 	}
 
 }

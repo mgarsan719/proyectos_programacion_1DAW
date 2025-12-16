@@ -1,7 +1,5 @@
 package actividades.poo.ActividadesTema1.Act01;
 
-import java.util.Scanner;
-
 public class Rectangulo
 {
 
@@ -50,15 +48,10 @@ public class Rectangulo
 	}
 	
 	//METODOS
-	public Rectangulo CrearRectangulo()
+	public Rectangulo CrearRectangulo(double base, double altura)
 	{
-		Scanner sc = new Scanner(System.in);
-		
-		System.out.print("Dime la base: ");
-		this.base = sc.nextDouble();
-
-		System.out.print("Dime la altura: ");
-		this.altura = sc.nextDouble();
+		this.base = base;
+		this.altura = altura;
 		
 		return new Rectangulo(base, altura);
 	}
