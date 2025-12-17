@@ -18,7 +18,7 @@ public class ArraysDiferentesTipos
 		enteros[4] = 5;
 
 		double[] decimales = new double[5];
-		
+
 		decimales[0] = 1.1;
 		decimales[1] = 1.2;
 		decimales[2] = 1.3;
@@ -26,7 +26,7 @@ public class ArraysDiferentesTipos
 		decimales[4] = 1.5;
 
 		boolean[] booleanos = new boolean[5];
-		
+
 		booleanos[0] = true;
 		booleanos[1] = false;
 		booleanos[2] = true;

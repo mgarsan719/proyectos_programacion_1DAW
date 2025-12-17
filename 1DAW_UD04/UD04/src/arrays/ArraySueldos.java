@@ -22,9 +22,9 @@ public class ArraySueldos
 		}
 
 		System.out.println(Arrays.toString(sueldos));
-		
-		//Busqueda en el array
-		for(double e : sueldos) 
+
+		// Busqueda en el array
+		for (double e : sueldos)
 		{
 			System.out.println(e);
 		}
