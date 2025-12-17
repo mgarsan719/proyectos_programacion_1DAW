@@ -1,4 +1,4 @@
-package arrays;
+package arrays.lectura_escritura;
 
 import java.util.Arrays;
 

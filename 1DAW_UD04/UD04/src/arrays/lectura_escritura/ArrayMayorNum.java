@@ -1,4 +1,4 @@
-package arrays;
+package arrays.lectura_escritura;
 
 import java.util.Scanner;
 
@@ -29,7 +29,7 @@ public class ArrayMayorNum
 
 	public static int numMax(int[] array)
 	{
-		int numMax = 0;
+		int numMax = array[0];
 
 		for (int e : array)
 		{
