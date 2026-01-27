@@ -1,4 +1,4 @@
-package arrays.boletines.boletin3;
+package arrays.boletines.boletin3.opcionales;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
