@@ -4,6 +4,5 @@
 /**
  * 
  */
-module examenUD04
-{
+module clubPadelBetis {
 }

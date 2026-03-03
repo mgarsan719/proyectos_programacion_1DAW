@@ -12,28 +12,28 @@ public class mainContadorCifras
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Dame un numero ");
-		int num1 = sc.nextInt();
+		int num = sc.nextInt();
 
 		int contadorCifra = 1;
 
-		if (num1 <= 99999 && num1 >= 0)
+		if (num <= 99999 && num >= 0)
 		{
-			if (num1 < 100 && num1 > 9)
+			if (num < 100 && num > 9)
 			{
 				contadorCifra = 2;
-				System.out.println("El " + num1 + " tiene " + contadorCifra + " cifras ");
-			} else if (num1 > 100 && num1 < 1000)
+				System.out.println("El " + num + " tiene " + contadorCifra + " cifras ");
+			} else if (num > 100 && num < 1000)
 			{
 				contadorCifra = 3;
-				System.out.println("El " + num1 + " tiene " + contadorCifra + " cifras ");
-			} else if (num1 > 1000 && num1 < 10000)
+				System.out.println("El " + num + " tiene " + contadorCifra + " cifras ");
+			} else if (num > 1000 && num < 10000)
 			{
 				contadorCifra = 4;
-				System.out.println("El " + num1 + " tiene " + contadorCifra + " cifras ");
-			} else if (num1 > 10000 && num1 < 100000)
+				System.out.println("El " + num + " tiene " + contadorCifra + " cifras ");
+			} else if (num > 10000 && num < 100000)
 			{
 				contadorCifra = 5;
-				System.out.println("El " + num1 + " tiene " + contadorCifra + " cifras ");
+				System.out.println("El " + num + " tiene " + contadorCifra + " cifras ");
 			}
 		} else
 		{
