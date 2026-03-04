@@ -21,18 +21,6 @@ public class Amateur extends Jugador {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Amateur other = (Amateur) obj;
-		return super.equals(obj) && this.puntoDebil.equals(other.puntoDebil);
-	}
-
-	@Override
 	public String toString() {
 		return String.format("Profesional [nombre= %s, apellidos= %s, dni=%s, codSocio= %d, puntoDebil= %s]",
 				super.getNombre(), super.getApellidos(), super.getDni(), super.getCodSocio(), this.puntoDebil);

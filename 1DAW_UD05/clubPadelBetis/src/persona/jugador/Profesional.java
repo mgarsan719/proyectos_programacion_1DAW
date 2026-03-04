@@ -1,7 +1,5 @@
 package persona.jugador;
 
-import java.util.Objects;
-
 public class Profesional extends Jugador {
 
 	// ATRIBUTOS
@@ -10,7 +8,7 @@ public class Profesional extends Jugador {
 	// CONSTRUCTOR
 	public Profesional(String nombre, String apellidos, String dni, int codSocio, String puntoFuerte) {
 		super(nombre, apellidos, dni, codSocio);
-		this.puntoFuerte= puntoFuerte;
+		this.puntoFuerte = puntoFuerte;
 	}
 
 	// GETTERS Y SETTERS
@@ -20,23 +18,6 @@ public class Profesional extends Jugador {
 
 	public void setPuntoFuerte(String puntoFuerte) {
 		this.puntoFuerte = puntoFuerte;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(puntoFuerte);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Profesional other = (Profesional) obj;
-		return super.equals(obj) && this.puntoFuerte.equals(other.puntoFuerte);
 	}
 
 	@Override

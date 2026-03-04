@@ -22,19 +22,6 @@ public class Empleado extends Persona {
 		this.codEmpleado = codEmpleado;
 	}
 
-	// METODOS
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Empleado other = (Empleado) obj;
-		return super.equals(obj) && this.codEmpleado == other.codEmpleado;
-	}
-
 	@Override
 	public String toString() {
 		return String.format("Empleado [nombre= %s, apellidos= %s, dni=%s, codEmpleado= %d]", super.getNombre(),

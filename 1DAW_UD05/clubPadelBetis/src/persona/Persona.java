@@ -1,6 +1,6 @@
 package persona;
 
-public abstract class Persona {
+public abstract class Persona implements Comparable<Persona>{
 
 	// ATRIBUTOS
 	private String nombre;
@@ -51,16 +51,21 @@ public abstract class Persona {
 		if (getClass() != obj.getClass())
 			return false;
 		Persona other = (Persona) obj;
-		return this.nombre.equals(other.nombre) 
-				&& this.apellidos.equals(other.apellidos) 
-				&& this.dni.equals(other.dni);
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Persona [nombre= %s, apellidos= %s, dni=%s]", this.nombre, this.apellidos, this.dni);
+		return this.dni.equals(other.dni);
 	}
 
 	public abstract void saludar();
+
+	@Override
+	public int compareTo(Persona o) {
+
+		int result = this.nombre.compareTo(o.nombre);
+		
+		if(result ==0) {
+			result =this.dni.compareTo(o.dni);
+		}
+		
+		return result;
+	}
 
 }

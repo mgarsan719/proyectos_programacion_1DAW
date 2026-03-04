@@ -26,18 +26,12 @@ public abstract class Jugador extends Persona {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Jugador other = (Jugador) obj;
 		return super.equals(obj) && this.codSocio == other.codSocio;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Jugador [nombre= %s, apellidos= %s, dni=%s, codSocio= %d]", super.getNombre(),
-				super.getApellidos(), super.getDni(), this.codSocio);
 	}
 
 }
