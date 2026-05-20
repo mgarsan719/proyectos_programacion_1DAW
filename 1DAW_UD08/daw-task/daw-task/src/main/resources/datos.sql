@@ -1,0 +1,16 @@
+INSERT INTO Tarea (titulo, descripcion, fecha_creacion, fecha_vencimiento, estado) VALUES
+('Configurar Entorno', 'Instalar JDK 17 y MySQL Server local', '2024-03-01', '2024-03-05', 'COMPLETADO'),
+('Diseño de Base Datos', 'Crear el modelo de entidad relación inicial', '2024-03-02', '2024-03-10', 'COMPLETADO'),
+('Crear Entidades JPA', 'Mapear TareaEntity y sus enums', '2024-03-05', '2024-03-12', 'EN_PROGRESO'),
+('Configurar Spring Security', 'Implementar autenticación JWT', '2024-03-10', '2024-03-25', 'PENDIENTE'),
+('Frontend: Login', 'Diseñar la pantalla de acceso con React', '2024-03-11', '2024-03-15', 'EN_PROGRESO'),
+('CRUD de Tareas', 'Implementar servicios y controladores para Tarea', '2024-03-12', '2024-03-20', 'PENDIENTE'),
+('Test Unitarios', 'Escribir pruebas de integración con JUnit', '2024-03-15', '2024-03-22', 'PENDIENTE'),
+('Optimización de Consultas', 'Revisar índices en la tabla Tarea', '2024-03-16', '2024-03-18', 'COMPLETADO'),
+('Despliegue en AWS', 'Configurar instancia EC2 y RDS', '2024-03-18', '2024-03-30', 'PENDIENTE'),
+('Documentación API', 'Generar Swagger para los endpoints', '2024-03-20', '2024-03-22', 'EN_PROGRESO'),
+('Corrección de Bugs', 'Resolver problemas reportados en el QA inicial', '2024-03-21', '2024-03-25', 'EN_PROGRESO'),
+('Estilos CSS', 'Aplicar diseño responsivo con Tailwind', '2024-03-22', '2024-03-24', 'PENDIENTE'),
+('Integración Continua', 'Configurar GitHub Actions para el build', '2024-03-23', '2024-03-28', 'PENDIENTE'),
+('Validación de Datos', 'Añadir anotaciones @NotNull y @Size en DTOs', '2024-03-24', '2024-03-26', 'COMPLETADO'),
+('Presentación Final', 'Preparar la demo del proyecto', '2024-03-25', '2024-04-01', 'PENDIENTE');
