@@ -149,8 +149,8 @@ public class TareaService {
 	}
 
 	// obtener tareas mediante su título
-	public TareaEntity findByTitle(String title) {
-		if (!this.tareaRepository.existsByTitulo(id)) {
+	public TareaEntity findByTitulo(String title) {
+		if (!this.tareaRepository.existsByTitulo(title)) {
 			throw new TareaNotFoundException("No se encuentra la tarea con id: " + id);
 		}
 
