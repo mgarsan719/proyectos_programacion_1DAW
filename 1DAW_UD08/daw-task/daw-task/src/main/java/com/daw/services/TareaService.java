@@ -124,15 +124,37 @@ public class TareaService {
 	}
 	
 	// obtener tareas pendientes
+	public List<TareaEntity> findPendientes() {
+		return this.tareaRepository.findByEstado(Estado.PENDIENTE);
+	}
 
 	// obtener tareas en progreso
-
+	public List<TareaEntity> findEnProgreso() {
+		return this.tareaRepository.findByEstado(Estado.EN_PROGRESO);
+	}
+	
 	// obtener las tareas completadas
-
+	public List<TareaEntity> findCompletadas() {
+		return this.tareaRepository.findByEstado(Estado.COMPLETADO);
+	}
+	
 	// obtener las tareas vencidas
-
+	public List<TareaEntity> findVencidas() {
+		return this.tareaRepository.findByFechaVencimientoLessThan(LocalDate.now());
+	}
+	
 	// obtener las tareas no vencidas
+	public List<TareaEntity> findNoVencidas() {
+		return this.tareaRepository.findByFechaVencimientoGreaterThanEqual(LocalDate.now());
+	}
 
 	// obtener tareas mediante su título
+	public TareaEntity findByTitle(String title) {
+		if (!this.tareaRepository.existsByTitulo(id)) {
+			throw new TareaNotFoundException("No se encuentra la tarea con id: " + id);
+		}
 
+		return this.tareaRepository.findById(id).get();
+	}
+	
 }

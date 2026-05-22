@@ -34,7 +34,7 @@ public class TareaController {
 
 	// findById
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findById(@PathVariable long id) {
+	public ResponseEntity<?> getById(@PathVariable long id) {
 		try {
 			return ResponseEntity.ok(this.tareaService.findById(id));
 		} catch (TareaNotFoundException ex) {
@@ -101,14 +101,39 @@ public class TareaController {
 	}
 	
 	// obtener tareas pendientes
+	@GetMapping("/tareasPendientes")
+	public ResponseEntity<List<TareaEntity>> getPendientes(){
+		return ResponseEntity.ok(this.tareaService.findPendientes());
 
+	}
+	
 	// obtener tareas en progreso
+	@GetMapping("/tareasEnProgreso")
+	public ResponseEntity<List<TareaEntity>> getEnProgreso(){
+		return ResponseEntity.ok(this.tareaService.findEnProgreso());
 
+	}
+	
 	// obtener las tareas completadas
+	@GetMapping("/tareasCompletadas")
+	public ResponseEntity<List<TareaEntity>> getCompletadas(){
+		return ResponseEntity.ok(this.tareaService.findCompletadas());
 
+	}
+	
 	// obtener las tareas vencidas
+	@GetMapping("/tareasVencidas")
+	public ResponseEntity<List<TareaEntity>> getVencidas(){
+		return ResponseEntity.ok(this.tareaService.findVencidas());
 
+	}
+	
 	// obtener las tareas no vencidas
+	@GetMapping("/tareasNoVencidas")
+	public ResponseEntity<List<TareaEntity>> getNoVencidas(){
+		return ResponseEntity.ok(this.tareaService.findNoVencidas());
 
+	}
+	
 	// obtener tareas mediante su título
 }
