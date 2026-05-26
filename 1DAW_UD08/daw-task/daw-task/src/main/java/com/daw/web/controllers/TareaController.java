@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.TareaEntity;
@@ -77,7 +78,7 @@ public class TareaController {
 	}
 
 	// iniciar tarea
-	@PutMapping("/iniciarTarea/{id}")
+	@PutMapping("/{id}/iniciar")
 	public ResponseEntity<?> iniciarTarea(@PathVariable long id) {
 		try {
 			return ResponseEntity.ok(this.tareaService.iniciarTarea(id));
@@ -89,7 +90,7 @@ public class TareaController {
 	}
 
 	// completar tarea
-	@PutMapping("/completarTarea/{id}")
+	@PutMapping("/{id}/completar")
 	public ResponseEntity<?> completarTarea(@PathVariable long id) {
 		try {
 			return ResponseEntity.ok(this.tareaService.completarTarea(id));
@@ -101,39 +102,47 @@ public class TareaController {
 	}
 	
 	// obtener tareas pendientes
-	@GetMapping("/tareasPendientes")
+	@GetMapping("/pendientes")
 	public ResponseEntity<List<TareaEntity>> getPendientes(){
 		return ResponseEntity.ok(this.tareaService.findPendientes());
 
 	}
 	
 	// obtener tareas en progreso
-	@GetMapping("/tareasEnProgreso")
+	@GetMapping("/en_progreso")
 	public ResponseEntity<List<TareaEntity>> getEnProgreso(){
 		return ResponseEntity.ok(this.tareaService.findEnProgreso());
 
 	}
 	
 	// obtener las tareas completadas
-	@GetMapping("/tareasCompletadas")
+	@GetMapping("/completadas")
 	public ResponseEntity<List<TareaEntity>> getCompletadas(){
 		return ResponseEntity.ok(this.tareaService.findCompletadas());
 
 	}
 	
 	// obtener las tareas vencidas
-	@GetMapping("/tareasVencidas")
+	@GetMapping("/vencidas")
 	public ResponseEntity<List<TareaEntity>> getVencidas(){
 		return ResponseEntity.ok(this.tareaService.findVencidas());
 
 	}
 	
 	// obtener las tareas no vencidas
-	@GetMapping("/tareasNoVencidas")
+	@GetMapping("/no_vencidas")
 	public ResponseEntity<List<TareaEntity>> getNoVencidas(){
 		return ResponseEntity.ok(this.tareaService.findNoVencidas());
 
 	}
 	
 	// obtener tareas mediante su título
+	@GetMapping("/titulo")
+	public ResponseEntity<?> getByTitulo(@RequestParam String titulo){
+		try {
+			return ResponseEntity.ok(this.tareaService.findByTitulo(titulo));
+		} catch(TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
 }

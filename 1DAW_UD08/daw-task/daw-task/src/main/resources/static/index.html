@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tareas Pro</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
+
+    <div id="toast" class="fixed bottom-5 right-5 hidden z-50 transform transition-all duration-300">
+        <div id="toast-bg" class="flex items-center space-x-2 px-4 py-3 rounded-xl shadow-lg border">
+            <span id="toast-text" class="text-sm font-medium"></span>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+        <header class="flex flex-col md:flex-row md:items-center md:justify-between pb-8 border-b border-slate-800 gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent flex items-center gap-2">
+                    <i data-lucide="check-square" class="text-blue-400"></i> TaskFlow Dashboard
+                </h1>
+                <p class="text-slate-400 text-sm mt-1">Gestión interna de tareas y flujos de trabajo.</p>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="relative flex-1 md:w-64">
+                    <input type="text" id="search-input" placeholder="Buscar por título..." 
+                           class="w-full bg-slate-800 text-slate-200 pl-10 pr-4 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-blue-500 text-sm">
+                    <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-500 w-4 h-4"></i>
+                </div>
+                <button onclick="buscarPorTitulo()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl border border-slate-700 text-sm font-medium transition">
+                    Buscar
+                </button>
+                <button onclick="openModal()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-sm font-medium shadow-lg shadow-blue-900/30 flex items-center gap-2 transition cursor-pointer">
+                    <i data-lucide="plus" class="w-4 h-4"></i> Nueva Tarea
+                </button>
+            </div>
+        </header>
+
+        <nav class="flex flex-wrap gap-2 my-6">
+            <button onclick="loadTareas('all')" id="filter-all" class="filter-btn active-filter px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer">Todas</button>
+            <button onclick="loadTareas('pendientes')" id="filter-pendientes" class="filter-btn bg-slate-800 text-slate-400 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer">Pendientes</button>
+            <button onclick="loadTareas('en_progreso')" id="filter-en_progreso" class="filter-btn bg-slate-800 text-slate-400 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer">En Progreso</button>
+            <button onclick="loadTareas('completadas')" id="filter-completadas" class="filter-btn bg-slate-800 text-slate-400 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer">Completadas</button>
+            <button onclick="loadTareas('vencidas')" id="filter-vencidas" class="filter-btn bg-slate-800 text-slate-400 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer">⚠️ Vencidas</button>
+            <button onclick="loadTareas('no_vencidas')" id="filter-no_vencidas" class="filter-btn bg-slate-800 text-slate-400 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer">Al Día</button>
+        </nav>
+
+        <main id="tareas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </main>
+        
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-slate-500">
+            <i data-lucide="folder-open" class="w-16 h-16 stroke-1 mb-4"></i>
+            <p class="text-lg">No se encontraron tareas en esta sección.</p>
+        </div>
+    </div>
+
+    <div id="tarea-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl shadow-2xl p-6 transform transition-all">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-xl font-bold text-white">Nueva Tarea</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition cursor-pointer">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form id="tarea-form" onsubmit="saveTarea(event)" class="space-y-4">
+                <input type="hidden" id="tarea-id">
+                
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Título</label>
+                    <input type="text" id="tarea-titulo" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 transition">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Descripción</label>
+                    <textarea id="tarea-descripcion" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 transition"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Fecha de Vencimiento</label>
+                    <input type="date" id="tarea-vencimiento" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-slate-200 focus:outline-none focus:border-blue-500 transition">
+                </div>
+
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-300 font-medium text-sm transition cursor-pointer">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm transition shadow-lg shadow-blue-900/20 cursor-pointer">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .active-filter {
+            background-color: rgb(37, 99, 235);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.3);
+        }
+    </style>
+
+    <script>
+        const API_BASE_URL = '/tareas';
+        let currentFilter = 'all';
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTareas('all');
+            lucide.createIcons();
+        });
+
+        // Cargar tareas según el filtro seleccionado
+        async function loadTareas(filter) {
+            currentFilter = filter;
+            updateFilterUI(filter);
+            
+            let url = API_BASE_URL;
+            if (filter !== 'all') {
+                url = `${API_BASE_URL}/${filter}`;
+            }
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Error al obtener los datos de la API');
+                const tareas = await response.json();
+                renderTareas(tareas);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Renderizar las tarjetas de tareas
+        function renderTareas(tareas) {
+            const container = document.getElementById('tareas-container');
+            const emptyState = document.getElementById('empty-state');
+            container.innerHTML = '';
+
+            // Asegurar que manejamos un array (la búsqueda por título devuelve un objeto directo)
+            const listaTareas = Array.isArray(tareas) ? tareas : [tareas];
+
+            if (listaTareas.length === 0 || !tareas) {
+                container.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            container.classList.remove('hidden');
+
+            listaTareas.forEach(tarea => {
+                const card = document.createElement('div');
+                card.className = 'bg-slate-800/60 border border-slate-700/70 rounded-2xl p-5 shadow-xl flex flex-col justify-between hover:border-slate-600 transition duration-300 backdrop-blur-xs';
+                
+                // Configuración visual según estado
+                let badgeColor = '';
+                let statusText = tarea.estado;
+                if(tarea.estado === 'PENDIENTE') badgeColor = 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+                if(tarea.estado === 'EN_PROGRESO') badgeColor = 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+                if(tarea.estado === 'COMPLETADO') badgeColor = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+
+                // Detectar si está vencida en base a la fecha actual
+                const hoy = new Date().toISOString().split('T')[0];
+                const esVencida = tarea.fechaVencimiento < hoy && tarea.estado !== 'COMPLETADO';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-md border ${badgeColor}">
+                                ${statusText}
+                            </span>
+                            ${esVencida ? '<span class="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-2.5 py-1 rounded-md font-bold">VENCIDA</span>' : ''}
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-100 mb-1 break-words">${tarea.titulo}</h4>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-3">${tarea.descripcion || 'Sin descripción'}</p>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-slate-700/50">
+                        <div class="flex items-center text-xs text-slate-400 mb-4 gap-1.5">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                            <span>Vence: <strong class="${esVencida ? 'text-red-400' : 'text-slate-300'}">${tarea.fechaVencimiento}</strong></span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex gap-1.5">
+                                ${tarea.estado === 'PENDIENTE' ? `
+                                    <button onclick="cambiarEstado(${tarea.id}, 'iniciar')" class="bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white p-2 rounded-lg border border-blue-500/30 transition text-xs font-medium flex items-center gap-1 cursor-pointer">
+                                        <i data-lucide="play" class="w-3.5 h-3.5"></i> Iniciar
+                                    </button>
+                                ` : ''}
+                                ${tarea.estado === 'EN_PROGRESO' ? `
+                                    <button onclick="cambiarEstado(${tarea.id}, 'completar')" class="bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white p-2 rounded-lg border border-emerald-500/30 transition text-xs font-medium flex items-center gap-1 cursor-pointer">
+                                        <i data-lucide="check" class="w-3.5 h-3.5"></i> Completar
+                                    </button>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="flex gap-1.5">
+                                <button onclick="prepareEdit(${JSON.stringify(tarea).replace(/"/g, '&quot;')})" class="bg-slate-700 hover:bg-slate-600 text-slate-300 p-2 rounded-lg transition cursor-pointer" title="Editar">
+                                    <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <button onclick="deleteTarea(${tarea.id})" class="bg-red-500/10 hover:bg-red-600 text-red-400 hover:text-white p-2 rounded-lg border border-red-500/20 transition cursor-pointer" title="Eliminar">
+                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Buscar tarea por título (`GET /tareas/titulo?titulo=...`)
+        async function buscarPorTitulo() {
+            const query = document.getElementById('search-input').value.trim();
+            if (!query) {
+                loadTareas('all');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/titulo?titulo=${encodeURIComponent(query)}`);
+                if (response.status === 404) {
+                    renderTareas([]); // Fuerza estado vacío
+                    return;
+                }
+                if (!response.ok) throw new Error('Error en la búsqueda');
+                const tarea = await response.json();
+                renderTareas(tarea);
+            } catch (error) {
+                showToast('No se encontró ninguna tarea con ese título.', 'error');
+            }
+        }
+
+        // Crear o Actualizar tarea (POST / PUT)
+        async function saveTarea(event) {
+            event.preventDefault();
+            const id = document.getElementById('tarea-id').value;
+            const titulo = document.getElementById('tarea-titulo').value;
+            const descripcion = document.getElementById('tarea-descripcion').value;
+            const fechaVencimiento = document.getElementById('tarea-vencimiento').value;
+
+            // payload base (no enviamos estado ni fechaCreacion para cumplir tus validaciones del backend)
+            const payload = { titulo, descripcion, fechaVencimiento };
+
+            let url = API_BASE_URL;
+            let method = 'POST';
+
+            if (id) {
+                url = `${API_BASE_URL}/${id}`;
+                method = 'PUT';
+                payload.id = parseInt(id);
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Error al procesar la tarea');
+                }
+
+                showToast(id ? 'Tarea actualizada con éxito' : 'Tarea creada con éxito', 'success');
+                closeModal();
+                loadTareas(currentFilter);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Cambiar estado (Iniciar / Completar)
+        async function cambiarEstado(id, accion) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/${id}/${accion}`, { method: 'PUT' });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                showToast(`Tarea modificada con éxito`, 'success');
+                loadTareas(currentFilter);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Eliminar tarea
+        async function deleteTarea(id) {
+            if (!confirm('¿Estás seguro de que deseas eliminar esta tarea?')) return;
+            try {
+                const response = await fetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('No se pudo eliminar la tarea');
+                
+                showToast('Tarea eliminada de forma permanente', 'success');
+                loadTareas(currentFilter);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Controladores del UI del Modal
+        function openModal() {
+            document.getElementById('modal-title').innerText = 'Nueva Tarea';
+            document.getElementById('tarea-form').reset();
+            document.getElementById('tarea-id').value = '';
+            document.getElementById('tarea-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('tarea-modal').classList.add('hidden');
+        }
+
+        function prepareEdit(tarea) {
+            document.getElementById('modal-title').innerText = 'Editar Tarea';
+            document.getElementById('tarea-id').value = tarea.id;
+            document.getElementById('tarea-titulo').value = tarea.titulo;
+            document.getElementById('tarea-descripcion').value = tarea.descripcion || '';
+            document.getElementById('tarea-vencimiento').value = tarea.fechaVencimiento;
+            document.getElementById('tarea-modal').classList.remove('hidden');
+        }
+
+        function updateFilterUI(activeFilter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = 'filter-btn bg-slate-800 text-slate-400 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer';
+            });
+            document.getElementById(`filter-${activeFilter}`).className = 'filter-btn active-filter px-4 py-2 rounded-xl text-sm font-medium transition cursor-pointer';
+        }
+
+        // Alertas Dinámicas (Toasts)
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const bg = document.getElementById('toast-bg');
+            const text = document.getElementById('toast-text');
+
+            text.innerText = message;
+            
+            if (type === 'success') {
+                bg.className = "flex items-center space-x-2 px-4 py-3 rounded-xl shadow-lg border bg-emerald-950 text-emerald-400 border-emerald-500/30";
+            } else {
+                bg.className = "flex items-center space-x-2 px-4 py-3 rounded-xl shadow-lg border bg-red-950 text-red-400 border-red-500/30";
+            }
+
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 4000);
+        }
+    </script>
+</body>
+</html>
